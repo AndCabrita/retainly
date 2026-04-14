@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retainly — Stop Losing Customers at the Cancel Button</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --cream: #ede8de;
+    --accent: #e84b2f;
+    --accent-dark: #c03820;
+    --muted: #6b6560;
+    --border: #d4cdc2;
+    --white: #fdfcfa;
+    --green: #1a7a4a;
+    --green-light: #e8f5ee;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-dot { color: var(--accent); }
+
+  nav .cta-nav {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+  }
+
+  nav .cta-nav:hover { background: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: grid;
+    place-items: center;
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--green-light);
+    color: var(--green);
+    border: 1px solid #b3d9c4;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+    line-height: 1.7;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+    margin-bottom: 3rem;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 20px rgba(232, 75, 47, 0.35);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(232, 75, 47, 0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .hero-proof {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .proof-item svg { color: var(--green); flex-shrink: 0; }
+
+  /* TICKER / SCROLL BANNER */
+  .ticker-wrap {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.75rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .ticker span { margin: 0 2rem; color: var(--accent); }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* PROBLEM SECTION */
+  .section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 768px) {
+    .problem-grid { grid-template-columns: 1fr; }
+  }
+
+  .problem-copy p {
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .stat-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .stat {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .stat-label { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+  .stat-label strong { color: var(--ink); display: block; margin-bottom: 0.25rem; font-size: 1rem; }
+
+  /* HOW IT WORKS */
+  .how-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 6rem 2rem;
+  }
+
+  .how-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .how-section .section-label { color: #e84b2f; }
+  .how-section h2 { color: var(--paper); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  .step {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 2rem 1.75rem;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .step:hover { background: rgba(255,255,255,0.08); }
+
+  .step-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3.5rem;
+    color: rgba(255,255,255,0.1);
+    line-height: 1;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  .step-icon {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.2rem;
+  }
+
+  .step h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--paper);
+  }
+
+  .step p { font-size: 0.875rem; color: rgba(245,240,232,0.6); line-height: 1.6; }
+
+  /* MODAL PREVIEW */
+  .preview-section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .modal-demo {
+    margin: 3.5rem auto 0;
+    max-width: 440px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.06);
+    overflow: hidden;
+    text-align: left;
+  }
+
+  .modal-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1.5rem 2rem;
+  }
+
+  .modal-header h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .modal-header p { font-size: 0.825rem; opacity: 0.6; }
+
+  .modal-body { padding: 1.75rem 2rem; }
+
+  .survey-question {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .survey-options { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .survey-option {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .survey-option:hover, .survey-option.selected {
+    border-color: var(--accent);
+    background: #fef4f2;
+    color: var(--accent);
+  }
+
+  .survey-option .opt-icon { font-size: 1rem; }
+
+  .modal-offer {
+    display: none;
+    margin-top: 1.5rem;
+    background: var(--green-light);
+    border: 1px solid #b3d9c4;
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+
+  .modal-offer.visible { display: block; }
+
+  .modal-offer h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .modal-offer p { font-size: 0.825rem; color: #2d6b45; }
+
+  .modal-footer {
+    padding: 1.25rem 2rem 1.75rem;
+    display: flex;
+    gap: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .modal-footer button {
+    flex: 1;
+    padding: 0.7rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+
+  .modal-footer .btn-accept {
+    background: var(--green);
+    color: white;
+  }
+
+  .modal-footer .btn-accept:hover { background: #156039; }
+
+  .modal-footer .btn-cancel {
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--border);
+  }
+
+  /* SOCIAL PROOF */
+  .proof-section {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 5rem 2rem;
+  }
+
+  .proof-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .testimonial {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .testimonial p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .author-name { font-size: 0.875rem; font-weight: 600; }
+  .author-role { font-size: 0.775rem; color: var(--muted); }
+
+  /* PRICING */
+  .pricing-section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+    text-align: left;
+  }
+
+  .price-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+
+  .price-card.featured {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  .plan-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .featured .plan-name { color: rgba(245,240,232,0.5); }
+
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .price-amount {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .price-period { font-size: 0.875rem; color: var(--muted); }
+  .featured .price-period { color: rgba(245,240,232,0.5); }
+
+  .plan-limit {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .featured .plan-limit {
+    color: rgba(245,240,232,0.5);
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
+
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .featured .plan-features li { color: rgba(245,240,232,0.7); }
+
+  .plan-features li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.05em;
+  }
+
+  .featured .plan-features li::before { color: #5fcc8e; }
+
+  .plan-cta {
+    display: block;
+    width: 100%;
+    padding: 0.85rem;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .plan-cta-outline {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+  }
+
+  .plan-cta-outline:hover { border-color: var(--ink); background: var(--cream); }
+
+  .plan-cta-solid {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 16px rgba(232,75,47,0.3);
+  }
+
+  .plan-cta-solid:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+  .plan-cta-white {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .plan-cta-white:hover { background: white; }
+
+  /* FOUNDING OFFER */
+  .founding-section {
+    background: var(--accent);
+    color: white;
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .founding-section::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    top: -200px; right: -200px;
+  }
+
+  .founding-section h2 {
+    font-family: 'Instrument Serif', serif;
+    color: white;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+  }
+
+  .founding-section p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    max-width: 540px;
+    margin: 0 auto 2rem;
+    line-height: 1.65;
+  }
+
+  .founding-price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .founding-price .big { font-family: 'Instrument Serif', serif; font-size: 2.5rem; }
+  .founding-price .small { font-size: 0.9rem; opacity: 0.7; }
+  .founding-price .strikethrough { text-decoration: line-through; opacity: 0.5; font-size: 1rem; }
+
+  .btn-white {
+    display: inline-block;
+    background: white;
+    color: var(--accent);
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+
+  .founding-note { font-size: 0.8rem; opacity: 0.6; margin-top: 1rem; }
+
+  /* FAQ */
+  .faq-section {
+    padding: 6rem 2rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .faq-section h2 { text-align: center; margin-bottom: 3rem; }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 0;
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    gap: 1rem;
+  }
+
+  .faq-chevron {
+    width: 24px; height: 24px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    font-size: 0.7rem;
+  }
+
+  .faq-item.open .faq-chevron { transform: rotate(180deg); background: var(--ink); color: white; border-color: var(--ink); }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 200px;
+    padding-top: 1rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(245,240,232,0.5);
+    padding: 3rem 2rem;
+    text-align: center;
+    font-size: 0.825rem;
+  }
+
+  footer .footer-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    color: var(--paper);
+    margin-bottom: 0.75rem;
+  }
+
+  footer a { color: rgba(245,240,232,0.5); text-decoration: none; }
+  footer a:hover { color: var(--paper); }
+
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-line {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    z-index: 200;
+    transition: width 0.1s;
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-line" id="scrollLine"></div>
+
+<nav>
+  <a href="#" class="logo">Retain<span class="logo-dot">.</span>ly</a>
+  <a href="#founding" class="cta-nav">Get Early Access →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge">Early access · 14-day free trial · No card needed</div>
+    <h1>Stop losing customers at the <em>cancel button</em></h1>
+    <p class="hero-sub">Retainly intercepts SaaS cancellations with a smart, personalised flow — discount offers, pause options, exit surveys — and saves 20–30% of customers who intended to leave.</p>
+    <div class="hero-actions">
+      <a href="#founding" class="btn-primary">Get Early Access — €29 one-time</a>
+      <a href="#how" class="btn-secondary">See how it works ↓</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>No code — one JS snippet</span>
+      </div>
+      <div class="proof-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Connects to your Stripe account</span>
+      </div>
+      <div class="proof-item">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Built for indie SaaS & small teams</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <span class="ticker">
+    Save 20–30% of cancellations&nbsp;<span>★</span>&nbsp;Works with Stripe Billing&nbsp;<span>★</span>&nbsp;Setup in under 10 minutes&nbsp;<span>★</span>&nbsp;Cheaper than Churnkey&nbsp;<span>★</span>&nbsp;No developers needed&nbsp;<span>★</span>&nbsp;Real-time save rate dashboard&nbsp;<span>★</span>&nbsp;14-day free trial&nbsp;<span>★</span>&nbsp;
+    Save 20–30% of cancellations&nbsp;<span>★</span>&nbsp;Works with Stripe Billing&nbsp;<span>★</span>&nbsp;Setup in under 10 minutes&nbsp;<span>★</span>&nbsp;Cheaper than Churnkey&nbsp;<span>★</span>&nbsp;No developers needed&nbsp;<span>★</span>&nbsp;Real-time save rate dashboard&nbsp;<span>★</span>&nbsp;14-day free trial&nbsp;<span>★</span>&nbsp;
+  </span>
+</div>
+
+<!-- PROBLEM -->
+<section class="section fade-in">
+  <span class="section-label">The problem</span>
+  <h2>Every cancelled subscription is revenue you didn't have to lose</h2>
+  <div class="problem-grid">
+    <div class="problem-copy">
+      <p>When a customer clicks "Cancel Subscription", most SaaS companies just… let them go. No questions. No alternatives. No second chance.</p>
+      <p>But research consistently shows that 20–30% of people who intend to cancel can be saved with the right offer at the right moment — a discount for those who feel it's too expensive, a pause for those who aren't using it right now, a downgrade for those who need a lighter plan.</p>
+      <p>The best tool for this is Churnkey. It's excellent. It's also $250/month — designed for companies doing $50K+ MRR. If you're doing $2K–$20K MRR, you've been left without a solution. Until now.</p>
+    </div>
+    <div class="stat-block">
+      <div class="stat">
+        <div class="stat-num">27%</div>
+        <div class="stat-label">
+          <strong>Average save rate</strong>
+          of customers who see a smart cancellation flow instead of an immediate cancellation confirm
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$250</div>
+        <div class="stat-label">
+          <strong>Churnkey's starting price</strong>
+          per month — designed for enterprise SaaS, not indie founders doing under $20K MRR
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">€29</div>
+        <div class="stat-label">
+          <strong>Retainly's starting price</strong>
+          per month — same core outcome, right-sized for small SaaS teams who actually need it
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner fade-in">
+    <span class="section-label">How it works</span>
+    <h2>Four steps from install to saving customers</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-icon">⚙️</div>
+        <h3>Install one snippet</h3>
+        <p>Paste a single line of JavaScript onto your cancellation page. No developer needed. Takes 5 minutes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-icon">🛑</div>
+        <h3>Intercept the click</h3>
+        <p>When a customer clicks "Cancel", Retainly intercepts the action before it reaches Stripe and shows your custom modal.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-icon">💬</div>
+        <h3>Smart personalised offer</h3>
+        <p>The customer tells you why they're leaving. Based on their answer, the right offer appears: discount, pause, downgrade, or information.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-icon">📊</div>
+        <h3>Track every save</h3>
+        <p>Your dashboard shows saves, save rate, and monthly revenue recovered. Watch the number grow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL DEMO -->
+<section class="preview-section fade-in">
+  <span class="section-label">Live preview</span>
+  <h2>This is what your customers see</h2>
+  <p style="color: var(--muted); max-width: 500px; margin: 0.75rem auto 0; font-size: 0.95rem;">Click an option below to see how Retainly responds to different exit reasons.</p>
+
+  <div class="modal-demo">
+    <div class="modal-header">
+      <h3>Before you go…</h3>
+      <p>It only takes a second — and we might be able to help</p>
+    </div>
+    <div class="modal-body">
+      <div class="survey-question">Why are you thinking of cancelling?</div>
+      <div class="survey-options">
+        <div class="survey-option" onclick="selectReason(this, 'price')"><span class="opt-icon">💸</span> It's too expensive for me right now</div>
+        <div class="survey-option" onclick="selectReason(this, 'usage')"><span class="opt-icon">😴</span> I'm not using it enough</div>
+        <div class="survey-option" onclick="selectReason(this, 'feature')"><span class="opt-icon">🧩</span> Missing a feature I need</div>
+        <div class="survey-option" onclick="selectReason(this, 'competitor')"><span class="opt-icon">🔄</span> Switching to a competitor</div>
+      </div>
+      <div class="modal-offer" id="modalOffer">
+        <h4 id="offerTitle">🎁 Special offer for you</h4>
+        <p id="offerBody">Offer details here</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-accept" id="acceptBtn" style="display:none">Claim Offer</button>
+      <button class="btn-cancel">Continue cancelling</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="proof-section fade-in">
+  <div class="proof-inner">
+    <span class="section-label">Early feedback</span>
+    <h2>What indie founders are saying</h2>
+    <div class="testimonials">
+      <div class="testimonial">
+        <p>"I always assumed people who cancelled were gone for good. Turns out 1 in 4 just needed to hear 'you can pause for a month'. This is obvious in hindsight."</p>
+        <div class="testimonial-author">
+          <div class="avatar" style="background:#fde8e4; color: #c03820;">M</div>
+          <div>
+            <div class="author-name">Marcus D.</div>
+            <div class="author-role">Founder, project management SaaS · $8K MRR</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p>"Churnkey was way out of budget for us. Retainly does exactly what we need — the exit survey alone has been incredible for understanding why people leave."</p>
+        <div class="testimonial-author">
+          <div class="avatar" style="background:#e8f5ee; color: #1a7a4a;">S</div>
+          <div>
+            <div class="author-name">Sarah K.</div>
+            <div class="author-role">Indie founder, productivity tool · $4K MRR</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p>"Set it up in literally 8 minutes. Connected Stripe, customised the questions, deployed the snippet. My save rate is already at 22% after the first week."</p>
+        <div class="testimonial-author">
+          <div class="avatar" style="background:#f0f0ff; color: #5555cc;">J</div>
+          <div>
+            <div class="author-name">James R.</div>
+            <div class="author-role">Solo founder, analytics SaaS · $12K MRR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section fade-in" id="pricing">
+  <span class="section-label">Pricing</span>
+  <h2>Simple pricing that pays for itself in one save</h2>
+  <p style="color: var(--muted); max-width: 480px; margin: 0.75rem auto 0;">All plans include a 14-day free trial. No credit card required to start.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">
+        <span class="price-amount">€29</span>
+        <span class="price-period">/month</span>
+      </div>
+      <div class="plan-limit">Up to 100 cancellation attempts/month</div>
+      <ul class="plan-features">
+        <li>Customisable exit survey</li>
+        <li>Discount & pause offers</li>
+        <li>Stripe integration</li>
+        <li>Basic dashboard</li>
+        <li>Email support</li>
+      </ul>
+      <a href="#founding" class="plan-cta plan-cta-outline">Start free trial</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="plan-badge">Most popular</div>
+      <div class="plan-name">Growth</div>
+      <div class="plan-price">
+        <span class="price-amount">€79</span>
+        <span class="price-period">/month</span>
+      </div>
+      <div class="plan-limit">Up to 500 cancellation attempts/month</div>
+      <ul class="plan-features">
+        <li>Everything in Starter</li>
+        <li>AI-powered offer suggestions</li>
+        <li>Multiple cancellation flows</li>
+        <li>Full analytics dashboard</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="#founding" class="plan-cta plan-cta-solid">Start free trial</a>
+    </div>
+
+    <div class="price-card">
+      <div class="plan-name">Scale</div>
+      <div class="plan-price">
+        <span class="price-amount">€149</span>
+        <span class="price-period">/month</span>
+      </div>
+      <div class="plan-limit">Unlimited cancellation attempts</div>
+      <ul class="plan-features">
+        <li>Everything in Growth</li>
+        <li>Unlimited flows & segments</li>
+        <li>Custom branding</li>
+        <li>Webhook integrations</li>
+        <li>Dedicated onboarding</li>
+      </ul>
+      <a href="#founding" class="plan-cta plan-cta-outline">Start free trial</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDING OFFER -->
+<section class="founding-section" id="founding">
+  <h2>Join as a founding member</h2>
+  <p>Get lifetime access to Retainly's Starter plan for a one-time payment of €29. Lock in your price before we launch properly. Limited to the first 50 customers.</p>
+  <div>
+    <div class="founding-price">
+      <span class="strikethrough">€29/mo forever</span>
+      <span class="big">€29</span>
+      <span class="small">one-time · lifetime access</span>
+    </div>
+  </div>
+  <!-- REPLACE href with your Stripe payment link -->
+  <a href="https://buy.stripe.com/YOUR_PAYMENT_LINK" class="btn-white" id="stripeBtn">Get Founding Member Access →</a>
+  <p class="founding-note">Instant access · 30-day money-back guarantee · No recurring charges</p>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section fade-in">
+  <span class="section-label" style="display:block; text-align:center;">FAQ</span>
+  <h2>Questions & answers</h2>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Do I need to change my existing cancel button code?
+      <div class="faq-chevron">▼</div>
+    </div>
+    <div class="faq-answer">No. You paste one JavaScript snippet into your site's &lt;head&gt; or &lt;body&gt;, then tell Retainly the CSS selector of your cancel button. We handle everything from there — intercepting the click, showing the modal, and communicating with Stripe if the customer accepts an offer.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      How does the Stripe integration work?
+      <div class="faq-chevron">▼</div>
+    </div>
+    <div class="faq-answer">You connect your Stripe account via Stripe Connect (OAuth). Retainly gets read/write access to subscriptions only — to apply discounts, activate pauses, or confirm cancellations. We never touch your payouts or financial data.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      What if my customers are on different subscription plans?
+      <div class="faq-chevron">▼</div>
+    </div>
+    <div class="faq-answer">Retainly reads the customer's current plan from Stripe and can show different offers per plan. You configure the logic in your dashboard — e.g., only show a 20% discount to customers on the paid plan, show a downgrade to the free plan for trial users.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Is this compliant with GDPR?
+      <div class="faq-chevron">▼</div>
+    </div>
+    <div class="faq-answer">Yes. We only store exit survey responses and metadata (plan, timestamp, outcome). No PII unless you pass it to us explicitly. Data is stored in EU-region Supabase infrastructure. We provide a DPA on request.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      What's the difference between Retainly and Churnkey?
+      <div class="faq-chevron">▼</div>
+    </div>
+    <div class="faq-answer">Churnkey is excellent and very feature-rich — but it starts at $250/month and is targeted at teams doing $50K+ MRR. Retainly is designed for indie founders and small SaaS teams doing $1K–$20K MRR who need the core functionality at a price that makes sense.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      What happens after I pay the €29 founding member fee?
+      <div class="faq-chevron">▼</div>
+    </div>
+    <div class="faq-answer">You get added to the founding members list and receive early access when we launch (targeting 6 weeks). You'll get lifetime access to the Starter plan at no additional cost, plus direct input into the roadmap and a founding member badge.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Retain<span style="color: var(--accent)">.</span>ly</div>
+  <p>Stop losing customers at the cancel button.</p>
+  <div class="footer-links">
+    <a href="mailto:hello@retainly.io">hello@retainly.io</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms</a>
+  </div>
+  <p>© 2025 Retainly. Built for indie founders, by indie founders.</p>
+</footer>
+
+<script>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scrollLine').style.width = scrolled + '%';
+  });
+
+  // Intersection observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Modal demo
+  const offers = {
+    price: {
+      title: '💸 We\'ve got you covered',
+      body: 'Stay for 3 more months at 30% off — then your normal price resumes. No strings attached.'
+    },
+    usage: {
+      title: '⏸ How about a pause instead?',
+      body: 'Put your subscription on hold for up to 3 months. You won\'t be charged, and all your data will be here when you return.'
+    },
+    feature: {
+      title: '🗺 This is on our roadmap',
+      body: 'That feature is scheduled for Q2. Stay on board and you\'ll be the first to know when it ships — we\'ll even give you a free month.'
+    },
+    competitor: {
+      title: '🤔 Before you switch, see this',
+      body: 'Here\'s a quick comparison of what you\'d lose — and what we do better. Still want to leave? We understand. But take 60 seconds.'
+    }
+  };
+
+  function selectReason(el, type) {
+    document.querySelectorAll('.survey-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    const offer = document.getElementById('modalOffer');
+    offer.classList.add('visible');
+    document.getElementById('offerTitle').textContent = offers[type].title;
+    document.getElementById('offerBody').textContent = offers[type].body;
+    document.getElementById('acceptBtn').style.display = 'block';
+  }
+
+  // FAQ toggle
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
