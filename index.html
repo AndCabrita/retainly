@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <!-- Google tag (gtag.js) -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retainly — Stop Losing Customers at the Cancel Button</title>
+<meta name="description" content="Retainly intercepts SaaS cancellations with a smart, personalised flow — discount offers, pause options, exit surveys — and saves 20–30% of customers who intended to leave.">
+
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-56T8V9LK5R"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -10,9 +15,7 @@
 
   gtag('config', 'G-56T8V9LK5R');
 </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retainly — Stop Losing Customers at the Cancel Button</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -41,7 +44,6 @@
     overflow-x: hidden;
   }
 
-  /* NOISE TEXTURE OVERLAY */
   body::before {
     content: '';
     position: fixed;
@@ -52,7 +54,6 @@
     opacity: 0.6;
   }
 
-  /* NAV */
   nav {
     position: sticky;
     top: 0;
@@ -73,9 +74,6 @@
     letter-spacing: -0.02em;
     color: var(--ink);
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
   }
 
   .logo-dot { color: var(--accent); }
@@ -96,7 +94,6 @@
 
   nav .cta-nav:hover { background: var(--accent); }
 
-  /* HERO */
   .hero {
     min-height: 92vh;
     display: grid;
@@ -144,10 +141,7 @@
     animation: fadeUp 0.6s 0.1s ease both;
   }
 
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
+  h1 em { font-style: italic; color: var(--accent); }
 
   .hero-sub {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
@@ -205,10 +199,7 @@
     display: inline-block;
   }
 
-  .btn-secondary:hover {
-    border-color: var(--ink);
-    transform: translateY(-2px);
-  }
+  .btn-secondary:hover { border-color: var(--ink); transform: translateY(-2px); }
 
   .hero-proof {
     display: flex;
@@ -229,7 +220,6 @@
 
   .proof-item svg { color: var(--green); flex-shrink: 0; }
 
-  /* TICKER / SCROLL BANNER */
   .ticker-wrap {
     background: var(--ink);
     color: var(--paper);
@@ -253,7 +243,6 @@
     to { transform: translateX(-50%); }
   }
 
-  /* PROBLEM SECTION */
   .section {
     padding: 6rem 2rem;
     max-width: 1100px;
@@ -288,6 +277,8 @@
 
   @media (max-width: 768px) {
     .problem-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr !important; }
+    .pricing-grid { grid-template-columns: 1fr !important; }
   }
 
   .problem-copy p {
@@ -307,11 +298,7 @@
     gap: 2rem;
   }
 
-  .stat {
-    display: flex;
-    gap: 1.25rem;
-    align-items: flex-start;
-  }
+  .stat { display: flex; gap: 1.25rem; align-items: flex-start; }
 
   .stat-num {
     font-family: 'Instrument Serif', serif;
@@ -324,18 +311,13 @@
   .stat-label { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
   .stat-label strong { color: var(--ink); display: block; margin-bottom: 0.25rem; font-size: 1rem; }
 
-  /* HOW IT WORKS */
   .how-section {
     background: var(--ink);
     color: var(--paper);
     padding: 6rem 2rem;
   }
 
-  .how-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
+  .how-inner { max-width: 1100px; margin: 0 auto; }
   .how-section .section-label { color: #e84b2f; }
   .how-section h2 { color: var(--paper); }
 
@@ -378,16 +360,9 @@
     font-size: 1.2rem;
   }
 
-  .step h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--paper);
-  }
-
+  .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--paper); }
   .step p { font-size: 0.875rem; color: rgba(245,240,232,0.6); line-height: 1.6; }
 
-  /* MODAL PREVIEW */
   .preview-section {
     padding: 6rem 2rem;
     max-width: 1100px;
@@ -405,29 +380,12 @@
     text-align: left;
   }
 
-  .modal-header {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 1.5rem 2rem;
-  }
-
-  .modal-header h3 {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.3rem;
-    margin-bottom: 0.25rem;
-  }
-
+  .modal-header { background: var(--ink); color: var(--paper); padding: 1.5rem 2rem; }
+  .modal-header h3 { font-family: 'Instrument Serif', serif; font-size: 1.3rem; margin-bottom: 0.25rem; }
   .modal-header p { font-size: 0.825rem; opacity: 0.6; }
-
   .modal-body { padding: 1.75rem 2rem; }
 
-  .survey-question {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--ink);
-  }
-
+  .survey-question { font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; color: var(--ink); }
   .survey-options { display: flex; flex-direction: column; gap: 0.6rem; }
 
   .survey-option {
@@ -448,8 +406,6 @@
     color: var(--accent);
   }
 
-  .survey-option .opt-icon { font-size: 1rem; }
-
   .modal-offer {
     display: none;
     margin-top: 1.5rem;
@@ -466,9 +422,6 @@
     font-weight: 600;
     color: var(--green);
     margin-bottom: 0.4rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
   }
 
   .modal-offer p { font-size: 0.825rem; color: #2d6b45; }
@@ -492,75 +445,76 @@
     transition: all 0.15s;
   }
 
-  .modal-footer .btn-accept {
-    background: var(--green);
-    color: white;
-  }
-
+  .modal-footer .btn-accept { background: var(--green); color: white; }
   .modal-footer .btn-accept:hover { background: #156039; }
+  .modal-footer .btn-cancel { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
 
-  .modal-footer .btn-cancel {
-    background: transparent;
-    color: var(--muted);
-    border: 1.5px solid var(--border);
-  }
-
-  /* SOCIAL PROOF */
-  .proof-section {
+  /* FOUNDER SECTION */
+  .founder-section {
     background: var(--cream);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding: 5rem 2rem;
   }
 
-  .proof-inner {
-    max-width: 1100px;
+  .founder-inner {
+    max-width: 760px;
     margin: 0 auto;
+    text-align: center;
   }
 
-  .testimonials {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-
-  .testimonial {
+  .founder-card {
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2rem;
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-top: 2.5rem;
+    text-align: left;
+    position: relative;
   }
 
-  .testimonial p {
-    font-size: 0.95rem;
-    line-height: 1.7;
+  .founder-card::before {
+    content: '"';
+    font-family: 'Instrument Serif', serif;
+    font-size: 6rem;
+    color: var(--accent);
+    opacity: 0.15;
+    position: absolute;
+    top: -1rem;
+    left: 1.5rem;
+    line-height: 1;
+  }
+
+  .founder-card p {
+    font-size: 1.05rem;
+    line-height: 1.8;
     color: var(--ink);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
     font-style: italic;
   }
 
-  .testimonial-author {
+  .founder-author {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
-  .avatar {
-    width: 38px; height: 38px;
+  .founder-avatar {
+    width: 44px; height: 44px;
     border-radius: 50%;
+    background: var(--accent);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 1rem;
     flex-shrink: 0;
   }
 
-  .author-name { font-size: 0.875rem; font-weight: 600; }
-  .author-role { font-size: 0.775rem; color: var(--muted); }
+  .founder-name { font-size: 0.9rem; font-weight: 600; }
+  .founder-role { font-size: 0.8rem; color: var(--muted); }
 
-  /* PRICING */
   .pricing-section {
     padding: 6rem 2rem;
     max-width: 1100px;
@@ -607,32 +561,15 @@
     text-transform: uppercase;
     padding: 0.25rem 0.75rem;
     border-radius: 100px;
+    white-space: nowrap;
   }
 
-  .plan-name {
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.75rem;
-  }
-
+  .plan-name { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
   .featured .plan-name { color: rgba(245,240,232,0.5); }
 
-  .plan-price {
-    display: flex;
-    align-items: baseline;
-    gap: 0.25rem;
-    margin-bottom: 0.4rem;
-  }
+  .plan-price { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 0.4rem; }
 
-  .price-amount {
-    font-family: 'Instrument Serif', serif;
-    font-size: 3rem;
-    line-height: 1;
-  }
-
+  .price-amount { font-family: 'Instrument Serif', serif; font-size: 3rem; line-height: 1; }
   .price-period { font-size: 0.875rem; color: var(--muted); }
   .featured .price-period { color: rgba(245,240,232,0.5); }
 
@@ -644,10 +581,7 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .featured .plan-limit {
-    color: rgba(245,240,232,0.5);
-    border-color: rgba(255,255,255,0.1);
-  }
+  .featured .plan-limit { color: rgba(245,240,232,0.5); border-color: rgba(255,255,255,0.1); }
 
   .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
 
@@ -666,7 +600,6 @@
     color: var(--green);
     font-weight: 700;
     flex-shrink: 0;
-    margin-top: 0.05em;
   }
 
   .featured .plan-features li::before { color: #5fcc8e; }
@@ -686,30 +619,11 @@
     text-decoration: none;
   }
 
-  .plan-cta-outline {
-    background: transparent;
-    border: 1.5px solid var(--border);
-    color: var(--ink);
-  }
-
+  .plan-cta-outline { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
   .plan-cta-outline:hover { border-color: var(--ink); background: var(--cream); }
-
-  .plan-cta-solid {
-    background: var(--accent);
-    color: white;
-    box-shadow: 0 4px 16px rgba(232,75,47,0.3);
-  }
-
+  .plan-cta-solid { background: var(--accent); color: white; box-shadow: 0 4px 16px rgba(232,75,47,0.3); }
   .plan-cta-solid:hover { background: var(--accent-dark); transform: translateY(-1px); }
 
-  .plan-cta-white {
-    background: var(--paper);
-    color: var(--ink);
-  }
-
-  .plan-cta-white:hover { background: white; }
-
-  /* FOUNDING OFFER */
   .founding-section {
     background: var(--accent);
     color: white;
@@ -728,20 +642,8 @@
     top: -200px; right: -200px;
   }
 
-  .founding-section h2 {
-    font-family: 'Instrument Serif', serif;
-    color: white;
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin-bottom: 1rem;
-  }
-
-  .founding-section p {
-    font-size: 1.1rem;
-    opacity: 0.85;
-    max-width: 540px;
-    margin: 0 auto 2rem;
-    line-height: 1.65;
-  }
+  .founding-section h2 { font-family: 'Instrument Serif', serif; color: white; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+  .founding-section p { font-size: 1.1rem; opacity: 0.85; max-width: 540px; margin: 0 auto 2rem; line-height: 1.65; }
 
   .founding-price {
     display: inline-flex;
@@ -775,22 +677,12 @@
   }
 
   .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
-
   .founding-note { font-size: 0.8rem; opacity: 0.6; margin-top: 1rem; }
 
-  /* FAQ */
-  .faq-section {
-    padding: 6rem 2rem;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
+  .faq-section { padding: 6rem 2rem; max-width: 720px; margin: 0 auto; }
   .faq-section h2 { text-align: center; margin-bottom: 3rem; }
 
-  .faq-item {
-    border-bottom: 1px solid var(--border);
-    padding: 1.5rem 0;
-  }
+  .faq-item { border-bottom: 1px solid var(--border); padding: 1.5rem 0; }
 
   .faq-question {
     display: flex;
@@ -825,12 +717,8 @@
     line-height: 1.75;
   }
 
-  .faq-item.open .faq-answer {
-    max-height: 200px;
-    padding-top: 1rem;
-  }
+  .faq-item.open .faq-answer { max-height: 200px; padding-top: 1rem; }
 
-  /* FOOTER */
   footer {
     background: var(--ink);
     color: rgba(245,240,232,0.5);
@@ -839,19 +727,11 @@
     font-size: 0.825rem;
   }
 
-  footer .footer-logo {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.5rem;
-    color: var(--paper);
-    margin-bottom: 0.75rem;
-  }
-
+  footer .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: var(--paper); margin-bottom: 0.75rem; }
   footer a { color: rgba(245,240,232,0.5); text-decoration: none; }
   footer a:hover { color: var(--paper); }
-
   .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
 
-  /* ANIMATIONS */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -863,20 +743,9 @@
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-  /* SCROLL INDICATOR */
-  .scroll-line {
-    position: fixed;
-    top: 0; left: 0;
-    height: 3px;
-    background: var(--accent);
-    z-index: 200;
-    transition: width 0.1s;
-  }
+  .scroll-line { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 200; transition: width 0.1s; }
 </style>
 </head>
 <body>
@@ -931,7 +800,7 @@
     <div class="problem-copy">
       <p>When a customer clicks "Cancel Subscription", most SaaS companies just… let them go. No questions. No alternatives. No second chance.</p>
       <p>But research consistently shows that 20–30% of people who intend to cancel can be saved with the right offer at the right moment — a discount for those who feel it's too expensive, a pause for those who aren't using it right now, a downgrade for those who need a lighter plan.</p>
-      <p>The best tool for this is Churnkey. It's excellent. It's also $250/month — designed for companies doing $50K+ MRR. If you're doing $2K–$20K MRR, you've been left without a solution. Until now.</p>
+      <p>The best tool for this is Churnkey. It's excellent. It's also $250/month — designed for companies doing $50K+ MRR. If you're doing €2K–€20K MRR, you've been left without a solution. Until now.</p>
     </div>
     <div class="stat-block">
       <div class="stat">
@@ -945,7 +814,7 @@
         <div class="stat-num">$250</div>
         <div class="stat-label">
           <strong>Churnkey's starting price</strong>
-          per month — designed for enterprise SaaS, not indie founders doing under $20K MRR
+          per month — designed for enterprise SaaS, not indie founders doing under €20K MRR
         </div>
       </div>
       <div class="stat">
@@ -1007,10 +876,10 @@
     <div class="modal-body">
       <div class="survey-question">Why are you thinking of cancelling?</div>
       <div class="survey-options">
-        <div class="survey-option" onclick="selectReason(this, 'price')"><span class="opt-icon">💸</span> It's too expensive for me right now</div>
-        <div class="survey-option" onclick="selectReason(this, 'usage')"><span class="opt-icon">😴</span> I'm not using it enough</div>
-        <div class="survey-option" onclick="selectReason(this, 'feature')"><span class="opt-icon">🧩</span> Missing a feature I need</div>
-        <div class="survey-option" onclick="selectReason(this, 'competitor')"><span class="opt-icon">🔄</span> Switching to a competitor</div>
+        <div class="survey-option" onclick="selectReason(this, 'price')"><span>💸</span> It's too expensive for me right now</div>
+        <div class="survey-option" onclick="selectReason(this, 'usage')"><span>😴</span> I'm not using it enough</div>
+        <div class="survey-option" onclick="selectReason(this, 'feature')"><span>🧩</span> Missing a feature I need</div>
+        <div class="survey-option" onclick="selectReason(this, 'competitor')"><span>🔄</span> Switching to a competitor</div>
       </div>
       <div class="modal-offer" id="modalOffer">
         <h4 id="offerTitle">🎁 Special offer for you</h4>
@@ -1024,40 +893,18 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="proof-section fade-in">
-  <div class="proof-inner">
-    <span class="section-label">Early feedback</span>
-    <h2>What indie founders are saying</h2>
-    <div class="testimonials">
-      <div class="testimonial">
-        <p>"I always assumed people who cancelled were gone for good. Turns out 1 in 4 just needed to hear 'you can pause for a month'. This is obvious in hindsight."</p>
-        <div class="testimonial-author">
-          <div class="avatar" style="background:#fde8e4; color: #c03820;">M</div>
-          <div>
-            <div class="author-name">Marcus D.</div>
-            <div class="author-role">Founder, project management SaaS · $8K MRR</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>"Churnkey was way out of budget for us. Retainly does exactly what we need — the exit survey alone has been incredible for understanding why people leave."</p>
-        <div class="testimonial-author">
-          <div class="avatar" style="background:#e8f5ee; color: #1a7a4a;">S</div>
-          <div>
-            <div class="author-name">Sarah K.</div>
-            <div class="author-role">Indie founder, productivity tool · $4K MRR</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>"Set it up in literally 8 minutes. Connected Stripe, customised the questions, deployed the snippet. My save rate is already at 22% after the first week."</p>
-        <div class="testimonial-author">
-          <div class="avatar" style="background:#f0f0ff; color: #5555cc;">J</div>
-          <div>
-            <div class="author-name">James R.</div>
-            <div class="author-role">Solo founder, analytics SaaS · $12K MRR</div>
-          </div>
+<!-- FOUNDER STORY -->
+<section class="founder-section fade-in">
+  <div class="founder-inner">
+    <span class="section-label">Why I built this</span>
+    <h2>A founder's honest story</h2>
+    <div class="founder-card">
+      <p>I built Retainly because I was watching customers cancel and doing nothing about it. Every time someone clicked "Cancel", I felt helpless — I didn't know why they were leaving, and I had no way to make them an offer or even ask a question.<br><br>I looked at Churnkey. It's excellent. But at $250/month, it only makes sense if you're already doing serious MRR. For the thousands of indie founders doing €2K–€15K MRR, there's nothing — you either build it yourself or you just let people walk out the door.<br><br>So I built Retainly. Simple, affordable, Stripe-native. The tool I wished existed when I needed it.</p>
+      <div class="founder-author">
+        <div class="founder-avatar">A</div>
+        <div>
+          <div class="founder-name">André — Founder, Retainly</div>
+          <div class="founder-role">Building in public · tryretainly.com</div>
         </div>
       </div>
     </div>
@@ -1183,7 +1030,7 @@
       What's the difference between Retainly and Churnkey?
       <div class="faq-chevron">▼</div>
     </div>
-    <div class="faq-answer">Churnkey is excellent and very feature-rich — but it starts at $250/month and is targeted at teams doing $50K+ MRR. Retainly is designed for indie founders and small SaaS teams doing $1K–$20K MRR who need the core functionality at a price that makes sense.</div>
+    <div class="faq-answer">Churnkey is excellent and very feature-rich — but it starts at $250/month and is targeted at teams doing $50K+ MRR. Retainly is designed for indie founders and small SaaS teams doing €1K–€20K MRR who need the core functionality at a price that makes sense.</div>
   </div>
 
   <div class="faq-item">
@@ -1193,6 +1040,14 @@
     </div>
     <div class="faq-answer">You get added to the founding members list and receive early access when we launch (targeting 6 weeks). You'll get lifetime access to the Starter plan at no additional cost, plus direct input into the roadmap and a founding member badge.</div>
   </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      When will the product be ready?
+      <div class="faq-chevron">▼</div>
+    </div>
+    <div class="faq-answer">We're currently in the validation phase. Founding members will get early access within 6–8 weeks. You'll receive email updates throughout the build process, and your feedback will directly shape the product.</div>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -1200,27 +1055,24 @@
   <div class="footer-logo">Retain<span style="color: var(--accent)">.</span>ly</div>
   <p>Stop losing customers at the cancel button.</p>
   <div class="footer-links">
-    <a href="mailto:hello@retainly.io">hello@retainly.io</a>
+    <a href="mailto:hello@tryretainly.com">hello@tryretainly.com</a>
     <a href="#">Privacy Policy</a>
     <a href="#">Terms</a>
   </div>
-  <p>© 2025 Retainly. Built for indie founders, by indie founders.</p>
+  <p>© 2026 Retainly. Built for indie founders, by indie founders.</p>
 </footer>
 
 <script>
-  // Scroll progress
   window.addEventListener('scroll', () => {
     const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
     document.getElementById('scrollLine').style.width = scrolled + '%';
   });
 
-  // Intersection observer for fade-in
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // Modal demo
   const offers = {
     price: {
       title: '💸 We\'ve got you covered',
@@ -1250,7 +1102,6 @@
     document.getElementById('acceptBtn').style.display = 'block';
   }
 
-  // FAQ toggle
   function toggleFaq(el) {
     const item = el.parentElement;
     const isOpen = item.classList.contains('open');
